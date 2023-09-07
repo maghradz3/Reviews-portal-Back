@@ -30,6 +30,6 @@ app.use("/api", reviewRoutes);
       console.log(`Server is running on port ${PORT}`);
     });
   } catch (error) {
-    console.log("error while starting", err);
+    console.log("error while starting!", err);
   }
 })();
