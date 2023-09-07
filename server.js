@@ -1,9 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-
-const app = express();
 dotenv.config();
+const uri =
+  process.env.MONGOOSE_URL ||
+  "mongodb+srv://levanmaghradze97:Lmgr2818@review-portal.rif4hjl.mongodb.net/";
+const app = express();
 
 const PORT = process.env.PORT || 3000;
 
@@ -17,7 +19,7 @@ app.use("/api", reviewRoutes);
 
 (async () => {
   try {
-    mongoose.connect(process.env.MONGOOSE_URL, {
+    mongoose.connect(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
