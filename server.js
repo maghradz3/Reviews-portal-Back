@@ -19,7 +19,7 @@ app.use("/api", reviewRoutes);
 
 (async () => {
   try {
-    mongoose.connect(uri, {
+    await mongoose.connect(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
