@@ -2,12 +2,42 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 
-router.get("/users", async (req, res) => {
+//registration
+router.post("/register", async (req, res) => {
+  const {
+    firstName: reqFirstName,
+    lastName: reqLastName,
+    email,
+    password,
+  } = req.body;
+
   try {
-    const users = await User.find();
-    res.json(users);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+    const emailExist = await User.find({ email });
+    if (emailExist.length) {
+      throw new Error("Email already exists");
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({
+      firstName: reqFirstName,
+      lastName: reqLastName,
+      email,
+      password: hashedPassword,
+    });
+    const savedUser = await newUser.save();
+    const { _id, firstName, lastName, role } = newUser;
+    const { token, refreshToken } = generateToken(
+      { _id, firstName, lastName, role },
+      "50m",
+      "7d"
+    );
+    return res.status(200).json({
+      message: "Registered Succesfully!",
+      token,
+      refreshToken,
+      user: savedUser,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
   }
 });
 
