@@ -80,7 +80,7 @@ router.post("/login", async (req, res) => {
 });
 
 //refreshToken
-export const refreshToken = async (req, res) => {
+router.post("/refresh", async (req, res) => {
   const { refresh_token } = req.body;
 
   try {
@@ -97,7 +97,7 @@ export const refreshToken = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: "something went wrong", err });
   }
-};
+});
 
 //Get all users
 router.get("/users", async (req, res) => {
