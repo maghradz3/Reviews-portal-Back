@@ -45,7 +45,7 @@ router.post("/register", async (req, res) => {
 });
 
 //login
-export const login = async (req, res) => {
+router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   const existingUser = await User.findOne({ email });
@@ -77,7 +77,7 @@ export const login = async (req, res) => {
   } else {
     return res.status(404).json({ message: "User not found" });
   }
-};
+});
 
 //refreshToken
 export const refreshToken = async (req, res) => {
