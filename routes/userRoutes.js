@@ -1,9 +1,9 @@
-import { generateToken } from "../utils/generateToken.js";
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const generateToken = require("../utils/generateToken");
 
 //registration
 router.post("/register", async (req, res) => {
