@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-export const authMiddleware = async (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
   let token = req.headers?.authorization;
   if (!token || !token.startsWith("Bearer")) {
     res.status(401).json({ message: "You are not authenticated!" });
@@ -16,3 +16,5 @@ export const authMiddleware = async (req, res, next) => {
     return;
   }
 };
+
+module.exports = authMiddleware;

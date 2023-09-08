@@ -13,6 +13,4 @@ const generateToken = (data, tokenExpiration, refhreshTokenExpiration) => {
   };
 };
 
-export default generateToken;
-
-// how to change export const to export default
+module.exports = generateToken;
