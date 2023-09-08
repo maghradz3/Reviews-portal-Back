@@ -1,10 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-export const generateToken = (
-  data,
-  tokenExpiration,
-  refhreshTokenExpiration
-) => {
+const generateToken = (data, tokenExpiration, refhreshTokenExpiration) => {
   const token = jwt.sign({ ...data }, process.env.JWT_SECRET, {
     expiresIn: tokenExpiration,
   });
@@ -16,3 +12,7 @@ export const generateToken = (
     refreshToken,
   };
 };
+
+export default generateToken;
+
+// how to change export const to export default
