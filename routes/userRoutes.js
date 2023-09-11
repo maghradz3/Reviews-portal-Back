@@ -4,6 +4,7 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const generateToken = require("../utils/generateToken");
+const passport = require("passport");
 
 //registration
 router.post("/register", async (req, res) => {
@@ -78,6 +79,31 @@ router.post("/login", async (req, res) => {
     return res.status(404).json({ message: "User not found" });
   }
 });
+
+// Google & Facebook Authentication Routes
+router.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+router.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+  })
+);
+
+router.get(
+  "/auth/facebook",
+  passport.authenticate("facebook", { scope: "email" })
+);
+router.get(
+  "/auth/facebook/callback",
+  passport.authenticate("facebook", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+  })
+);
 
 //refreshToken
 router.post("/refresh", async (req, res) => {
