@@ -13,9 +13,9 @@ const userRoutes = require("./routes/userRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const commentRoutes = require("./routes/commentRoutes");
 
-app.use("/users", userRoutes);
-app.use("/review", reviewRoutes);
-app.use("/comment", commentRoutes);
+app.use("/api", userRoutes);
+app.use("/api", reviewRoutes);
+app.use("/api", commentRoutes);
 
 // Connect to MongoDB
 
