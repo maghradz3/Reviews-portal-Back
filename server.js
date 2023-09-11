@@ -3,9 +3,9 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const passport = require("passport");
 const session = require("express-session");
 dotenv.config();
+const passport = require("passport");
 const uri =
   process.env.MONGOOSE_URL ||
   "mongodb+srv://levanmaghradze97:Lmgr2818@review-portal.rif4hjl.mongodb.net/";
