@@ -12,7 +12,6 @@ const userSchema = new mongoose.Schema({
   authType: {
     // "local", "google", "facebook", etc.
     type: String,
-    required: true,
   },
   profilePicture: {
     // URL to cloud storage
