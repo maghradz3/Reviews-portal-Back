@@ -1,11 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const cors = require("cors");
 dotenv.config();
 const uri =
   process.env.MONGOOSE_URL ||
   "mongodb+srv://levanmaghradze97:Lmgr2818@review-portal.rif4hjl.mongodb.net/";
 const app = express();
+
+//general middlewares
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 
 const PORT = process.env.PORT || 3000;
 
