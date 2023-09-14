@@ -36,10 +36,12 @@ app.use(passport.session());
 const userRoutes = require("./routes/userRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const commentRoutes = require("./routes/commentRoutes");
+const likeRoutes = require("./routes/likeRoutes");
 
 app.use("/user", userRoutes);
 app.use("/review", reviewRoutes);
-app.use("/comment", commentRoutes);
+app.use("/review/:reviewId/comments", commentRoutes);
+app.use("/review/:reviewId/likes", likeRoutes);
 
 // Connect to MongoDB
 

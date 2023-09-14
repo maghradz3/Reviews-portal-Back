@@ -21,7 +21,7 @@ exports.createReview = async (req, res) => {
 
 exports.getReviewById = async (req, res) => {
   try {
-    const review = await Review.findById(req.params.id);
+    const review = await Review.findById(req.params._id);
 
     if (!review) {
       return res.status(404).json({ error: "Review not found" });
@@ -35,13 +35,13 @@ exports.getReviewById = async (req, res) => {
 
 exports.updateReview = async (req, res) => {
   try {
-    let review = await Review.findById(req.params.id);
+    let review = await Review.findById(req.params._id);
 
     if (!review) {
       return res.status(404).json({ error: "Review not found" });
     }
 
-    review = await Review.findByIdAndUpdate(req.params.id, req.body, {
+    review = await Review.findByIdAndUpdate(req.params._id, req.body, {
       new: true,
     }); // new: true ensures the updated doc is returned
     res.status(200).json(review);
@@ -52,7 +52,7 @@ exports.updateReview = async (req, res) => {
 
 exports.deleteReview = async (req, res) => {
   try {
-    const review = await Review.findById(req.params.id);
+    const review = await Review.findById(req.params._id);
 
     if (!review) {
       return res.status(404).json({ error: "Review not found" });

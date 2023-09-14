@@ -8,7 +8,7 @@ const {
   createReview,
   updateReview,
   deleteReview,
-} = require("../controllers/review");
+} = require("../controllers/reviewController");
 
 router.get("/", getAllReviews);
 router.get("/:id", getReviewById);
