@@ -37,11 +37,13 @@ const userRoutes = require("./routes/userRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const commentRoutes = require("./routes/commentRoutes");
 const likeRoutes = require("./routes/likeRoutes");
+const cloudUploads = require("./cloudinary/cloudinariConfig");
 
 app.use("/user", userRoutes);
 app.use("/review", reviewRoutes);
 app.use("/review/:reviewId/comments", commentRoutes);
 app.use("/review/:reviewId/likes", likeRoutes);
+app.use("/cloud", cloudUploads);
 
 // Connect to MongoDB
 

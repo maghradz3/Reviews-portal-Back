@@ -69,3 +69,19 @@ exports.deleteReview = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.searchReviews = async (req, res) => {
+  try {
+    const searchQuery = req.query.q;
+
+    const reviews = await Review.find({
+      $text: {
+        $search: searchQuery,
+      },
+    }).populate("comments.user", "firstName lastName");
+
+    res.json(reviews);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

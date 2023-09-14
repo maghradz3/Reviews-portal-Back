@@ -9,6 +9,7 @@ const {
   createReview,
   updateReview,
   deleteReview,
+  searchReviews
 } = require("../controllers/reviewController");
 
 router.get("/", getAllReviews);
@@ -16,5 +17,6 @@ router.get("/:reviewId", getReviewById);
 router.post("/", authMiddleware, createReview);
 router.put("/:reviewId", authMiddleware, updateReview);
 router.delete("/:reviewId", authMiddleware, deleteReview);
+router.get("/search",searchReviews)
 
 module.exports = router;

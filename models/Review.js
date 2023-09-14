@@ -64,4 +64,12 @@ const reviewSchema = new mongoose.Schema({
   ],
 });
 
+reviewSchema.index({
+  title: "text",
+  pieceName: "text",
+  content: "text",
+  "comments.text": "text",
+  tags: "text",
+});
+
 module.exports = mongoose.model("Review", reviewSchema);
