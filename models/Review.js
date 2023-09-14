@@ -9,13 +9,13 @@ const reviewSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  group: {
+  category: {
     type: String,
     enum: ["Movies", "Books", "Games"],
     required: true,
   },
   tags: [String],
-  reviewText: {
+  content: {
     type: String,
     required: true,
   },
@@ -31,7 +31,11 @@ const reviewSchema = new mongoose.Schema({
     max: 10,
     required: true,
   },
-  author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 
   comments: [
     {
