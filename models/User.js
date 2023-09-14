@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
   role: { type: String, enum: ["admin", "user"], default: "user" },
-  authType: {
+  googleId: {
     // "local", "google", "facebook", etc.
     type: String,
   },

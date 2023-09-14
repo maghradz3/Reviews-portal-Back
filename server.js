@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+require("dotenv").config();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const session = require("express-session");
@@ -21,6 +22,17 @@ app.use(cors());
 
 const PORT = process.env.PORT || 3000;
 
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Passport middleware setup
+app.use(passport.initialize());
+app.use(passport.session());
 const userRoutes = require("./routes/userRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const commentRoutes = require("./routes/commentRoutes");
@@ -28,30 +40,6 @@ const commentRoutes = require("./routes/commentRoutes");
 app.use("/user", userRoutes);
 app.use("/review", reviewRoutes);
 app.use("/comment", commentRoutes);
-
-// Use express-session to manage sessions
-app.use(
-  session({
-    secret: "your-session-secret",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false },
-  })
-);
-
-// Passport middleware setup
-app.use(passport.initialize());
-app.use(passport.session());
-
-// This is for setting up session for the authenticated user.
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  const user = await User.findById(id);
-  done(null, user);
-});
 
 // Connect to MongoDB
 

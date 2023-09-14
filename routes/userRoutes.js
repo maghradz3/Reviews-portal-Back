@@ -80,7 +80,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// Google & Facebook Authentication Routes
 router.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
@@ -88,22 +87,34 @@ router.get(
 router.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-  })
+    successRedirect: "/protected",
+    failureRedirect: "/auth/failure",
+  }),
+  (req, res) => {
+    console.log("User:", req.user);
+    res.send("Thank You for logging in with Google");
+  }
 );
 
-router.get(
-  "/auth/facebook",
-  passport.authenticate("facebook", { scope: "email" })
-);
-router.get(
-  "/auth/facebook/callback",
-  passport.authenticate("facebook", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-  })
-);
+router.get("/auth/failure", (req, res) => {
+  res.send("Failed to login");
+});
+
+router.get("/protected", (req, res) => {
+  res.send("You are authenticated");
+});
+
+// router.get(
+//   "/auth/facebook",
+//   passport.authenticate("facebook", { scope: "email" })
+// );
+// router.get(
+//   "/auth/facebook/callback",
+//   passport.authenticate("facebook", {
+//     successRedirect: "/",
+//     failureRedirect: "/login",
+//   })
+// );
 
 //refreshToken
 router.post("/refresh", async (req, res) => {

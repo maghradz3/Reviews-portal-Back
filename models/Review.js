@@ -1,11 +1,24 @@
 const mongoose = require("mongoose");
 
 const reviewSchema = new mongoose.Schema({
-  name: String,
-  pieceOfArt: String,
-  group: { type: String, enum: ["Movies", "Books", "Games"] },
+  title: {
+    type: String,
+    required: true,
+  },
+  artworkName: {
+    type: String,
+    required: true,
+  },
+  group: {
+    type: String,
+    enum: ["Movies", "Books", "Games"],
+    required: true,
+  },
   tags: [String],
-  reviewText: String,
+  reviewText: {
+    type: String,
+    required: true,
+  },
   image: {
     // URL to cloud storage
     type: String,
@@ -17,7 +30,12 @@ const reviewSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
-  grade: { type: Number, min: 0, max: 10 },
+  grade: {
+    type: Number,
+    min: 0,
+    max: 10,
+    required: true,
+  },
   author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   rating: {
     type: Number,
