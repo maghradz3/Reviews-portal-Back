@@ -10,11 +10,14 @@ exports.getAllReviews = async (req, res) => {
 };
 
 exports.createReview = async (req, res) => {
+  const newReview = new Review({
+    ...req.body,
+    author: req.user._id,
+  });
+
   try {
-    const review = new Review(req.body);
-    review.author = req.user._id;
-    await review.save();
-    res.json(review);
+    const savedReview = await newReview.save();
+    res.json(savedReview);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -38,7 +41,7 @@ exports.updateReview = async (req, res) => {
       req.params.reviewId,
       req.body,
       { new: true }
-    );
+    ).populate("author");
     if (!updatedReview)
       return res.status(404).json({ message: "Review not found" });
     res.json(updatedReview);
@@ -49,8 +52,19 @@ exports.updateReview = async (req, res) => {
 
 exports.deleteReview = async (req, res) => {
   try {
-    await Review.findByIdAndDelete(req.params.reviewId);
-    res.json({ message: "Review deleted successfully" });
+    const review = await Review.findById(req.params.reviewId);
+    if (!review) return res.status(404).json({ message: "Review not found" });
+
+    // Check if the user is the author or an admin
+    if (
+      review.author.toString() !== req.user._id &&
+      req.user.role !== "admin"
+    ) {
+      return res.status(403).json({ message: "You can't delete this review" });
+    }
+
+    await review.remove();
+    res.json({ message: "Review deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

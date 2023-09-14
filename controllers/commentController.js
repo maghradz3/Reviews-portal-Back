@@ -3,6 +3,9 @@ const Review = require("../models/Review");
 exports.addComment = async (req, res) => {
   try {
     const review = await Review.findById(req.params.reviewId);
+    if (!review) {
+      return res.status(404).json({ message: "Review not found" });
+    }
 
     const newComment = {
       text: req.body.text,
