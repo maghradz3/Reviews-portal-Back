@@ -24,28 +24,40 @@ const reviewSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
-  likes: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
-  grade: {
+
+  rating: {
     type: Number,
     min: 0,
     max: 10,
     required: true,
   },
   author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  rating: {
-    type: Number,
-    min: 0,
-    max: 10,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+
+  comments: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
+      text: {
+        type: String,
+        required: true,
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
+  likes: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    },
+  ],
 });
 
 module.exports = mongoose.model("Review", reviewSchema);
