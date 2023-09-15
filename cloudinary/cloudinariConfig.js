@@ -11,33 +11,43 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: "review_images",
-    allowedFormats: ["jpg", "png", "jpeg"],
-    transformation: [{ width: 500, height: 500, crop: "limit" }],
+const uploadToCloudinary = async (fileBuffer) => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream((error, result) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(result.url);
+      }
+    });
+
+    streamifier.createReadStream(fileBuffer).pipe(uploadStream);
+  });
+};
+
+const storage = multer.memoryStorage();
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // limit to 5MB
   },
 });
 
-const parser = multer({ storage: storage });
-
-router.post("/upload", parser.single("image"), async (req, res) => {
+router.post("/upload", upload.single("image"), async (req, res) => {
   try {
-    let image_url = null;
-    if (req.file) {
-      image_url = req.file.path;
-    }
-    const { title, content } = req.body;
-    const newReview = new Review({
-      title,
-      content,
-      image: image_url,
-    });
-    const savedReview = await newReview.save();
-    res.status(201).json(savedReview);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    const imageUrl = await uploadToCloudinary(req.file.buffer);
+    const reviewData = { ...req.body, image: imageUrl };
+    reviewData.tags = JSON.parse(req.body.tags);
+
+    const createdReview = await Review.create(reviewData);
+
+    res
+      .status(201)
+      .json({ message: "Review created successfully", review: createdReview });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Internal Server Error", error: err.message });
   }
 });
 
