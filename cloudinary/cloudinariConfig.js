@@ -52,22 +52,26 @@ router.post("/uploadReviewImg", upload.single("image"), async (req, res) => {
   }
 });
 
-router.post("/uploadUserImg", upload.single("image"), async (req, res) => {
-  try {
-    const imageUrl = await uploadToCloudinary(req.file.buffer);
-    const userData = { ...req.body, image: imageUrl };
-    userData.tags = JSON.parse(req.body.tags);
+router.post(
+  "/uploadUserImg",
+  upload.single("profilePicutre"),
+  async (req, res) => {
+    try {
+      const imageUrl = await uploadToCloudinary(req.file.buffer);
+      const userData = { ...req.body, profilePicture: imageUrl };
+      userData.tags = JSON.parse(req.body.tags);
 
-    const createdUser = await User.create(userData);
+      const createdUser = await User.create(userData);
 
-    res
-      .status(201)
-      .json({ message: "User created successfully", user: createdUser });
-  } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Internal Server Error", error: err.message });
+      res
+        .status(201)
+        .json({ message: "User created successfully", user: createdUser });
+    } catch (err) {
+      res
+        .status(500)
+        .json({ message: "Internal Server Error", error: err.message });
+    }
   }
-});
+);
 
 module.exports = router;

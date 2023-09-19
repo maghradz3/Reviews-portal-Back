@@ -20,18 +20,4 @@ router.get("/:reviewId", getReviewById);
 router.put("/:reviewId", authMiddleware, updateReview);
 router.delete("/:reviewId", authMiddleware, deleteReview);
 
-// router.post("/upload", async (req, res) => {
-//   const newReview = new Review({
-//     ...req.body,
-//     // author: req.user._id,
-//   });
-
-//   try {
-//     const savedReview = await newReview.save();
-//     res.json(savedReview);
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// });
-
 module.exports = router;

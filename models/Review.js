@@ -36,6 +36,10 @@ const reviewSchema = new mongoose.Schema({
     ref: "User",
     // required: true,
   },
+  textarrea: {
+    type: String,
+    required: true,
+  },
 
   comments: [
     {

@@ -63,7 +63,7 @@ exports.deleteReview = async (req, res) => {
       return res.status(403).json({ message: "You can't delete this review" });
     }
 
-    await review.remove();
+    await Product.findByIdAndRemove(req.params.reviewId);
     res.json({ message: "Review deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
