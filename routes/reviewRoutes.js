@@ -1,7 +1,8 @@
 const express = require("express");
+const Review = require("../models/Review");
 const router = express.Router();
-const authMiddleware = require("../middlewares/authMiddleware");
-const roleMiddleware = require("../middlewares/roleMiddleware");
+const authMiddleware = require("../middlewares/auth.middleware");
+const roleMiddleware = require("../middlewares/role.middleware");
 
 const {
   getAllReviews,
@@ -9,14 +10,28 @@ const {
   createReview,
   updateReview,
   deleteReview,
-  searchReviews
+  searchReviews,
 } = require("../controllers/reviewController");
 
 router.get("/", getAllReviews);
+router.post("/upload", createReview);
+router.get("/search", searchReviews);
 router.get("/:reviewId", getReviewById);
-router.post("/", authMiddleware, createReview);
 router.put("/:reviewId", authMiddleware, updateReview);
 router.delete("/:reviewId", authMiddleware, deleteReview);
-router.get("/search",searchReviews)
+
+// router.post("/upload", async (req, res) => {
+//   const newReview = new Review({
+//     ...req.body,
+//     // author: req.user._id,
+//   });
+
+//   try {
+//     const savedReview = await newReview.save();
+//     res.json(savedReview);
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// });
 
 module.exports = router;

@@ -12,7 +12,7 @@ exports.getAllReviews = async (req, res) => {
 exports.createReview = async (req, res) => {
   const newReview = new Review({
     ...req.body,
-    author: req.user._id,
+    // author: req.user._id,
   });
 
   try {

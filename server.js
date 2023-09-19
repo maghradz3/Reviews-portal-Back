@@ -36,7 +36,7 @@ app.use(passport.session());
 const userRoutes = require("./routes/userRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const commentRoutes = require("./routes/commentRoutes");
-const likeRoutes = require("./routes/likeRoutes");
+const likeRoutes = require("./routes/likesRoutes");
 const cloudUploads = require("./cloudinary/cloudinariConfig");
 
 app.use("/user", userRoutes);

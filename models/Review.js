@@ -7,12 +7,12 @@ const reviewSchema = new mongoose.Schema({
   },
   artworkName: {
     type: String,
-    required: true,
+    // required: true,
   },
   category: {
     type: String,
     enum: ["Movies", "Books", "Games"],
-    required: true,
+    // required: true,
   },
   tags: [String],
   content: {
@@ -34,7 +34,7 @@ const reviewSchema = new mongoose.Schema({
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true,
+    // required: true,
   },
 
   comments: [

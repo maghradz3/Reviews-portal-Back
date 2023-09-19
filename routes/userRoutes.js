@@ -58,6 +58,7 @@ router.post("/login", async (req, res) => {
       email,
       password: hashedPassword,
       role,
+      profilePicture,
     } = existingUser;
     const isPasswordValid = await bcrypt.compare(password, hashedPassword);
     if (isPasswordValid) {

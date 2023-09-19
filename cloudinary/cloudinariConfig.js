@@ -4,6 +4,7 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const Review = require("../models/Review");
+const User = require("../models/User");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -33,7 +34,7 @@ const upload = multer({
   },
 });
 
-router.post("/upload", upload.single("image"), async (req, res) => {
+router.post("/uploadReviewImg", upload.single("image"), async (req, res) => {
   try {
     const imageUrl = await uploadToCloudinary(req.file.buffer);
     const reviewData = { ...req.body, image: imageUrl };
@@ -44,6 +45,24 @@ router.post("/upload", upload.single("image"), async (req, res) => {
     res
       .status(201)
       .json({ message: "Review created successfully", review: createdReview });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Internal Server Error", error: err.message });
+  }
+});
+
+router.post("/uploadUserImg", upload.single("image"), async (req, res) => {
+  try {
+    const imageUrl = await uploadToCloudinary(req.file.buffer);
+    const userData = { ...req.body, image: imageUrl };
+    userData.tags = JSON.parse(req.body.tags);
+
+    const createdUser = await User.create(userData);
+
+    res
+      .status(201)
+      .json({ message: "User created successfully", user: createdUser });
   } catch (err) {
     res
       .status(500)

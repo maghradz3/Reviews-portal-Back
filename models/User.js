@@ -5,12 +5,10 @@ const userSchema = new mongoose.Schema({
   lastName: { type: String, requeired: true },
   email: { type: String, required: true },
   password: {
-    // If local authentication is used, else social auth tokens
     type: String,
   },
   role: { type: String, enum: ["admin", "user"], default: "user" },
   googleId: {
-    // "local", "google", "facebook", etc.
     type: String,
   },
   profilePicture: {
