@@ -42,6 +42,7 @@ const cloudUploads = require("./cloudinary/cloudinariConfig");
 app.use("/user", userRoutes);
 app.use("/review", reviewRoutes);
 app.use("/review/:reviewId/comments", commentRoutes);
+app.use("/review/:reviewId/comments/:commentId", commentRoutes);
 app.use("/review/:reviewId/likes", likeRoutes);
 app.use("/cloud", cloudUploads);
 
