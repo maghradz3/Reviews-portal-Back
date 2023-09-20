@@ -5,8 +5,9 @@ const {
   deleteComment,
 } = require("../controllers/commentController");
 const authMiddleware = require("../middlewares/auth.middleware");
+const roleMiddleware = require("../middlewares/role.middleware");
 
 router.post("/", authMiddleware, addComment);
-router.delete("/", authMiddleware, deleteComment);
+router.delete("/", authMiddleware, roleMiddleware, deleteComment);
 
 module.exports = router;
