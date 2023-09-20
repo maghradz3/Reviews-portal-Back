@@ -14,10 +14,10 @@ const {
 } = require("../controllers/reviewController");
 
 router.get("/", getAllReviews);
-router.post("/upload", createReview);
+router.post("/upload", authMiddleware, roleMiddleware, createReview);
 router.get("/search", searchReviews);
 router.get("/:reviewId", getReviewById);
-router.put("/:reviewId", authMiddleware, updateReview);
-router.delete("/:reviewId", authMiddleware, deleteReview);
+router.put("/:reviewId", authMiddleware, roleMiddleware, updateReview);
+router.delete("/:reviewId", authMiddleware, roleMiddleware, deleteReview);
 
 module.exports = router;
