@@ -93,7 +93,7 @@ exports.deleteReview = async (req, res) => {
 exports.searchReviews = async (req, res) => {
   const { title } = req.query;
   try {
-    const filtered = await Product.find({
+    const filtered = await Review.find({
       title: { $regex: title, $options: "i" },
     });
     res.status(200).json({ review: filtered });
