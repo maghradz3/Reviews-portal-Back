@@ -7,9 +7,7 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 dotenv.config();
 const passport = require("passport");
-const uri =
-  process.env.MONGOOSE_URL ||
-  "mongodb+srv://levanmaghradze97:Lmgr2818@review-portal.rif4hjl.mongodb.net/";
+const uri = process.env.MONGOOSE_URL;
 
 require("./passportConfig");
 
