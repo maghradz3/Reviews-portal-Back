@@ -81,29 +81,29 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
-router.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    successRedirect: "/protected",
-    failureRedirect: "/auth/failure",
-  }),
-  (req, res) => {
-    console.log("User:", req.user);
-    res.send("Thank You for logging in with Google");
-  }
-);
+// router.get(
+//   "/auth/google",
+//   passport.authenticate("google", { scope: ["profile", "email"] })
+// );
+// router.get(
+//   "/auth/google/callback",
+//   passport.authenticate("google", {
+//     successRedirect: "/protected",
+//     failureRedirect: "/auth/failure",
+//   }),
+//   (req, res) => {
+//     console.log("User:", req.user);
+//     res.send("Thank You for logging in with Google");
+//   }
+// );
 
-router.get("/auth/failure", (req, res) => {
-  res.send("Failed to login");
-});
+// router.get("/auth/failure", (req, res) => {
+//   res.send("Failed to login");
+// });
 
-router.get("/protected", (req, res) => {
-  res.send("You are authenticated");
-});
+// router.get("/protected", (req, res) => {
+//   res.send("You are authenticated");
+// });
 
 // router.get(
 //   "/auth/facebook",
