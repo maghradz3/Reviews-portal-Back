@@ -74,6 +74,10 @@ exports.searchReviews = async (req, res) => {
   try {
     const searchQuery = req.query.q;
 
+    if (!searchQuery || typeof searchQuery !== "string") {
+      return res.status(400).json({ error: "Invalid search query" });
+    }
+
     const reviews = await Review.find({
       $text: {
         $search: searchQuery,
