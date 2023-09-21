@@ -70,34 +70,22 @@ exports.deleteReview = async (req, res) => {
   }
 };
 
-// exports.searchReviews = async (req, res) => {
-//   try {
-//     const searchQuery = req.query.q;
-
-//     if (!searchQuery || typeof searchQuery !== "string") {
-//       return res.status(400).json({ error: "Invalid search query" });
-//     }
-
-//     const reviews = await Review.find({
-//       $text: {
-//         $search: searchQuery,
-//       },
-//     }).populate("comments.user", "firstName lastName");
-
-//     res.json(reviews);
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
-
 exports.searchReviews = async (req, res) => {
-  const { title } = req.query;
   try {
-    const filtered = await Review.find({
-      title: { $regex: title, $options: "i" },
-    });
-    res.status(200).json({ review: filtered });
+    const searchQuery = req.query.q;
+
+    if (!searchQuery || typeof searchQuery !== "string") {
+      return res.status(400).json({ error: "Invalid search query" });
+    }
+
+    const reviews = await Review.find({
+      $text: {
+        $search: searchQuery,
+      },
+    }).populate("comments.user", "firstName lastName");
+
+    res.json(reviews);
   } catch (err) {
-    res.status(500).json({ message: "something went wrong", err });
+    res.status(500).json({ error: err.message });
   }
 };
