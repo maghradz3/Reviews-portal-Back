@@ -14,7 +14,7 @@ const {
 } = require("../controllers/reviewController");
 
 router.get("/", getAllReviews);
-router.post("/upload", authMiddleware, roleMiddleware, createReview);
+router.post("/upload", authMiddleware, createReview);
 router.get("/search", searchReviews);
 router.get("/:reviewId", getReviewById);
 router.put("/:reviewId", authMiddleware, roleMiddleware, updateReview);
