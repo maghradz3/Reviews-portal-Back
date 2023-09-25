@@ -10,6 +10,12 @@ exports.getAllReviews = async (req, res) => {
 };
 
 exports.createReview = async (req, res) => {
+  let { tags } = req.body;
+  if (tags && tags.length > 0) {
+    tags = tags[0].split(" ").filter((tag) => tag);
+    req.body.tags = tags;
+  }
+
   const newReview = new Review({
     ...req.body,
     // author: req.user._id,
