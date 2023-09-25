@@ -2,7 +2,23 @@ const Review = require("../models/Review");
 
 exports.getAllReviews = async (req, res) => {
   try {
-    const reviews = await Review.find().populate("author").exec();
+    let { sort, category } = req.query;
+    let sortOrder = {};
+    let filter = {};
+    if (sort) {
+      if (sort === "likes") {
+        sortOrder = { "likes.length": -1 };
+      }
+    }
+
+    if (category) {
+      filter.category = category;
+    }
+
+    const reviews = await Review.find(filter)
+      .sort(sortOrder)
+      .populate("author")
+      .exec();
     res.json(reviews);
   } catch (err) {
     res.status(500).json({ error: err.message });
