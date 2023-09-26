@@ -262,7 +262,7 @@ router.put("/users/:id/admin", async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    user.status = user.role === "user" ? "admin" : "user";
+    user.role = user.role === "user" ? "admin" : "user";
     await user.save();
     return res.json({ message: "Status updated successfully", user });
   } catch (error) {
