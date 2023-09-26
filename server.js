@@ -18,11 +18,10 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const corsOptions = {
-  origin: [
-    "http://localhost:3000",
-    "https://master.d27f5crjw8848s.amplifyapp.com/",
-  ],
-  methods: ["GET,HEAD,PUT,PATCH,POST,DELETE"],
+  origin: "https://master.d27f5crjw8848s.amplifyapp.com",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  optionsSuccessStatus: 204,
 };
 
 app.use(cors(corsOptions));
