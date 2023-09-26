@@ -1,12 +1,8 @@
 const Review = require("../models/Review");
 
 exports.getAllReviews = async (req, res) => {
-  const { sort = "" } = req.query;
-  const [name, order] = sort.split(",");
   try {
-    const reviews = (await Review.find().populate("author").exec()).sort({
-      [name]: order === "asc" ? 1 : -1,
-    });
+    const reviews = await Review.find().populate("author").exec();
     res.json(reviews);
   } catch (err) {
     res.status(500).json({ error: err.message });
