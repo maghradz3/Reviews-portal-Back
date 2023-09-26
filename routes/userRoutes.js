@@ -238,7 +238,7 @@ router.put("/users/:id/block", async (req, res) => {
   }
 });
 
-router.post("/users/:id/unblock", async (req, res) => {
+router.put("/users/:id/unblock", async (req, res) => {
   const { id: _id } = req.params;
 
   try {
@@ -247,6 +247,22 @@ router.post("/users/:id/unblock", async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
     user.status = user.status[0] === "Blocked" ? ["Active"] : ["Active"];
+    await user.save();
+    return res.json({ message: "Status updated successfully", user });
+  } catch (error) {
+    console.error("Error updating status:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+router.put("/users/:id/admin", async (req, res) => {
+  const { id: _id } = req.params;
+
+  try {
+    const user = await User.findById(_id);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    user.status = user.role === "user" ? "admin" : "user";
     await user.save();
     return res.json({ message: "Status updated successfully", user });
   } catch (error) {
