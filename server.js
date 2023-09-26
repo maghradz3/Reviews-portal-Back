@@ -24,11 +24,12 @@ const corsOptions = {
   ],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
-  optionsSuccessStatus: 204,
+
   allowedHeaders: [
     "Content-Type",
     "Acces-Control-Allow-Origin",
-    "Access-Control-Allow-Credentials0,Authorization",
+    "Access-Control-Allow-Credentials",
+    "Authorization",
     "Accept",
   ],
 };
