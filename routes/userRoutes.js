@@ -176,7 +176,7 @@ router.post("/users", async (req, res) => {
   }
 });
 
-// PUT - Update a user by ID
+//  - Update a user by ID
 
 router.put("/users/:id", async (req, res) => {
   try {
@@ -200,7 +200,7 @@ router.put("/users/:id", async (req, res) => {
   }
 });
 
-// DELETE - Delete a user by ID
+//   Delete a user by ID
 router.delete("/users/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -211,6 +211,44 @@ router.delete("/users/:id", async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
+});
+
+//User Blocking
+
+router.put("/users/:id/block", async (req, res) => {
+  const { id: _id } = req.params;
+
+  try {
+    const user = await User.findById(_id);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    user.status = user.status[0] === "Active" ? ["Blocked"] : ["Blocked"];
+    await user.save();
+    return res.json({ message: "Status updated successfully", user });
+  } catch (error) {
+    console.error("Error updating status:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.post("/users/:id/unblock", async (req, res) => {
+  export const unBlockUser = async (req, res) => {
+    const { id: _id } = req.params;
+
+    try {
+      const user = await User.findById(_id);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      user.status = user.status[0] === "Blocked" ? ["Active"] : ["Active"];
+      await user.save();
+      return res.json({ message: "Status updated successfully", user });
+    } catch (error) {
+      console.error("Error updating status:", error);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  };
 });
 
 module.exports = router;
