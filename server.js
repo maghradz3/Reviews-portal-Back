@@ -16,7 +16,24 @@ const app = express();
 //general middlewares
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors());
+
+const corsOptions = {
+  origin: [
+    "http://localhost:3000",
+    "https://master.d27f5crjw8848s.amplifyapp.com/",
+  ],
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  optionsSuccessStatus: 204,
+  allowedHeaders: [
+    "Content-Type",
+    "Acces-Control-Allow-Origin",
+    "Access-Control-Allow-Credentials0,Authorization",
+    "Accept",
+  ],
+};
+
+app.use(cors(corsOptions));
 
 const PORT = process.env.PORT || 5000;
 
