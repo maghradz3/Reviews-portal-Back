@@ -22,16 +22,10 @@ const corsOptions = {
     "http://localhost:3000",
     "https://master.d27f5crjw8848s.amplifyapp.com/",
   ],
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  methods: ["GET,HEAD,PUT,PATCH,POST,DELETE"],
   credentials: true,
-
-  allowedHeaders: [
-    "Content-Type",
-    "Acces-Control-Allow-Origin",
-    "Access-Control-Allow-Credentials",
-    "Authorization",
-    "Accept",
-  ],
+  optionsSuccessStatus: 204,
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOptions));
