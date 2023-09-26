@@ -28,9 +28,9 @@ router.post("/register", async (req, res) => {
       password: hashedPassword,
     });
     const savedUser = await newUser.save();
-    const { _id, firstName, lastName, role } = newUser;
+    const { _id, firstName, lastName, role, status } = newUser;
     const { token, refreshToken } = generateToken(
-      { _id, firstName, lastName, role },
+      { _id, firstName, lastName, role, status },
       "50m",
       "7d"
     );
@@ -51,6 +51,12 @@ router.post("/login", async (req, res) => {
 
   const existingUser = await User.findOne({ email });
   if (existingUser) {
+    if (existingUser.status.includes("Blocked")) {
+      return res
+        .status(403)
+        .json({ message: "User is blocked and cannot log in." });
+    }
+
     const {
       _id,
       firstName,
@@ -233,22 +239,20 @@ router.put("/users/:id/block", async (req, res) => {
 });
 
 router.post("/users/:id/unblock", async (req, res) => {
-  export const unBlockUser = async (req, res) => {
-    const { id: _id } = req.params;
+  const { id: _id } = req.params;
 
-    try {
-      const user = await User.findById(_id);
-      if (!user) {
-        return res.status(404).json({ error: "User not found" });
-      }
-      user.status = user.status[0] === "Blocked" ? ["Active"] : ["Active"];
-      await user.save();
-      return res.json({ message: "Status updated successfully", user });
-    } catch (error) {
-      console.error("Error updating status:", error);
-      return res.status(500).json({ error: "Internal server error" });
+  try {
+    const user = await User.findById(_id);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
     }
-  };
+    user.status = user.status[0] === "Blocked" ? ["Active"] : ["Active"];
+    await user.save();
+    return res.json({ message: "Status updated successfully", user });
+  } catch (error) {
+    console.error("Error updating status:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 module.exports = router;
