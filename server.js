@@ -20,8 +20,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const corsOptions = {
   origin: [
     "http://localhost:3001",
-    "https://master.d27f5crjw8848s.amplifyapp.com",
-    "https://maghradz3.github.io/Rewiews-Portal/",
+
+    "https://maghradz3.github.io/Rewiews-Portal",
   ],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
